@@ -4,10 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Soph's Newsletter</title>
-
 <!-- =====================================================================
 ===================================================================== */-->
-
 <style>
   /* ===================================================================
      DESIGN TOKENS 
@@ -23,13 +21,10 @@
     --gold:       #D9A33D;   /* tertiary accent — used very sparingly */
     --line:       #D8CCB4;   /* hairline rule color */
     --shadow:     rgba(38,34,28,0.12);
-
     --font-display: Georgia, 'Times New Roman', serif;
     --font-body: -apple-system, 'Helvetica Neue', Arial, sans-serif;
   }
-
   *{ box-sizing: border-box; }
-
   body{
     font-family: var(--font-body);
     max-width: 760px;
@@ -39,7 +34,6 @@
     color: var(--ink);
     line-height: 1.55;
   }
-
   /* ===================================================================
      PASSWORD GATE
   =================================================================== */
@@ -112,7 +106,6 @@
   }
   /* hides the real content until unlocked */
   #siteContent{ display: none; }
-
   /* ===================================================================
      MASTHEAD 
   =================================================================== */
@@ -153,7 +146,6 @@
     padding-top: 10px;
     border-top: 1px solid var(--line);
   }
-
   /* ===================================================================
      SECTION DIVIDER 
   =================================================================== */
@@ -165,7 +157,6 @@
     letter-spacing: 0.3em;
     user-select: none;
   }
-
   /* ===================================================================
      SECTION SHELL — 
   =================================================================== */
@@ -190,7 +181,6 @@
     color: var(--ink);
   }
   section.block p{ margin: 0 0 12px; color: var(--ink); }
-
   /* ===================================================================
      GUIDE / TABLE OF CONTENTS
   =================================================================== */
@@ -217,7 +207,6 @@
   .guide-list .g-text{ font-size: 15px; }
   .guide-list .g-text strong{ display:block; font-size: 15px; }
   .guide-list .g-text span{ font-size: 13px; color: var(--ink-soft); }
-
   /* ===================================================================
      UPDATES SECTION 
   =================================================================== */
@@ -240,7 +229,6 @@
     margin: 0 0 4px;
   }
   .update-item p{ font-size: 14px; margin: 0; color: var(--ink-soft); }
-
   /* ===================================================================
      CURRENTLY INTO
   =================================================================== */
@@ -264,8 +252,6 @@
   }
   .into-col .into-item .into-title{ font-weight: 600; display:block; }
   .into-col .into-item .into-sub{ font-size: 12px; color: var(--ink-soft); }
-
-
   .into-item.has-cover{
     display: flex;
     align-items: flex-start;
@@ -291,7 +277,6 @@
   @media (max-width: 600px){
     .into-grid{ grid-template-columns: 1fr; }
   }
-
   /* ===================================================================
      PHOTO ALBUM 
   =================================================================== */
@@ -334,8 +319,6 @@
   @media (max-width: 600px){
     .album-grid{ grid-template-columns: repeat(3, 1fr); }
   }
-
-
   #captionOverlay{
     position: fixed;
     inset: 0;
@@ -377,7 +360,6 @@
     text-decoration: underline;
     font-family: var(--font-body);
   }
-
   /* ===================================================================
      POLL 
   =================================================================== */
@@ -431,7 +413,7 @@
     color: var(--ink-soft);
     margin-top: 10px;
   }
-
+  .poll-options.poll-loading{ opacity: 0.5; pointer-events: none; }
   /* ===================================================================
      FOOTER
   =================================================================== */
@@ -444,9 +426,7 @@
   }
 </style>
 </head>
-
 <body>
-
   <!-- =================================================================
        PASSWORD GATE 
   ================================================================== -->
@@ -460,12 +440,10 @@
       <div id="lockError"></div>
     </div>
   </div>
-
   <!-- =================================================================
        content
   ================================================================== -->
   <div id="siteContent">
-
     <!-- ============================= MASTHEAD ============================= -->
     <header class="masthead">
       <div class="eyebrow">Welcome to the first edition of</div>
@@ -476,7 +454,6 @@
         <span>June 2026</span>
       </div>
     </header>
-
     <!-- ============================= GUIDE / TOC ============================= -->
     <section class="block" id="guide">
       <div class="block-label">In this issue</div>
@@ -501,44 +478,33 @@
         </li>
       </ul>
     </section>
-
     <div class="divider">• • •</div>
-
     <!-- ============================= UPDATES ============================= -->
     <section class="block" id="updates">
       <div class="block-label">Section 01</div>
       <h2>Updates</h2>
-
-
       <div class="update-item">
         <div class="u-date">June 2026</div>
         <h3>Being Employed</h3>
         <p>Ok guys. Lowkey it's crazy to actually have a job and have work to do. But it is also kind of lit. I am currently doing my SUPERCOMMUTE from Philly to DC twice a week which is rough but also kind of a vibe. My coworkers are all lit and it is so fun to be reunited with Isak. </p>
       </div>
-
       <div class="update-item">
         <div class="u-date">June 2026</div>
         <h3>HALF MARATHON RAHHHH</h3>
         <p>Anna and I DID THAT SHIT. We went up to Portland and we spent the weekend having delicious food and hanging out with Stella. It was a beautiful morning and the weather was perfect for our run. I think we both thought it would be really rough but lowkey we ate. We are signed up for the Philly Half in November which we will be running with everyone's favorite Irish DIVA Aislinn Lavery YEAAAAAAA</p>
       </div>
-
       <div class="update-item">
         <div class="u-date">June 2026</div>
         <h3>Final thoughts...</h3>
         <p>I really miss u guys crazy and I miss being able to just see everyone whenever I want. It is so sad to have to make plans to call. I love you all and I am really excited for all of the chances we will get to see each other next in the future whenever that may be.</p>
       </div>
     </section>
-
     <div class="divider">• • •</div>
-
     <!-- ============================= CURRENTLY INTO ============================= -->
     <section class="block" id="currently-into">
       <div class="block-label">Section 02</div>
       <h2>June Favorites</h2>
-
       <div class="into-grid">
-
-
         <div class="into-col">
           <div class="into-label">Reading</div>
           <div class="into-item has-cover">
@@ -560,8 +526,6 @@
             </div>
           </div>
         </div>
-
-
         <div class="into-col">
           <div class="into-label">Listening</div>
           <div class="into-item">
@@ -569,7 +533,6 @@
           </div>
             <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/4LtgvAJeOaVPsvKNzR09i4?utm_source=generator&si=815ca17cffdb465b" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
         </div>
-
         <!-- WATCHING column  -->
         <div class="into-col">
           <div class="into-label">Watching</div>
@@ -582,20 +545,14 @@
             <span class="into-sub">Guys I am actually so upset that there is no more Hacks there's literally an unfillable hole in my heart. If u haven't watched it I am SO jealous of you and you need to start it now. </span>
           </div>
         </div>
-
       </div>
     </section>
-
     <div class="divider">• • •</div>
-
     <!-- ============================= PHOTO ALBUM ============================= -->
     <section class="block" id="photo-album">
       <div class="block-label">Section 03</div>
       <h2>Photo album (some of these are from May so shh)</h2>
       <p style="font-size:14px; color:var(--ink-soft); margin-top:-6px;">Click any photo to see its caption.</p>
-
-
-
       <div class="album-grid" id="albumGrid">
         <div class="album-tile" data-caption="Ray and Oli came to Bryn Mawr for a weekend which was so fun! We took them to our fave bar in the area and this was the aftermath.">
           <img src="pngs/photo-1.jpeg" alt="Rhea visit">
@@ -639,17 +596,12 @@
         </div>
       </div>
     </section>
-
     <div class="divider">• • •</div>
-
     <!-- ============================= POLL ============================= -->
     <section class="block" id="poll">
       <div class="block-label">Section 04</div>
       <h2>Quick poll</h2>
-
-
       <div class="poll-question">Worst person on love island?</div>
-
       <div class="poll-options" id="pollOptions">
         <div class="poll-option" data-label="Corbin">
           <span class="opt-text">Corbin</span>
@@ -674,13 +626,10 @@
       </div>
       <div class="poll-note">Tap an option to vote.</div>
     </section>
-
     <footer>
       <p>&copy; SOPH </p>
     </footer>
-
   </div><!-- end #siteContent -->
-
   <!-- =================================================================
        CAPTION LIGHTBOX OVERLAY (for the photo album)
   ================================================================== -->
@@ -691,19 +640,15 @@
       <button class="close-btn" id="closeCaptionBtn">close</button>
     </div>
   </div>
-
   <script>
     /* ===================================================================
-
     =================================================================== */
     const SITE_PASSWORD = "SOPHJUNE26"; // 
-
     const lockScreen = document.getElementById('lockScreen');
     const siteContent = document.getElementById('siteContent');
     const passwordInput = document.getElementById('passwordInput');
     const unlockBtn = document.getElementById('unlockBtn');
     const lockError = document.getElementById('lockError');
-
     function tryUnlock(){
       if (passwordInput.value === SITE_PASSWORD){
         lockScreen.style.display = 'none';
@@ -714,13 +659,11 @@
         passwordInput.focus();
       }
     }
-
     unlockBtn.addEventListener('click', tryUnlock);
     passwordInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') tryUnlock();
     });
   </script>
-
   <script>
     /* ===================================================================
        PHOTO ALBUM LIGHTBOX SCRIPT
@@ -732,7 +675,6 @@
     const captionImg = document.getElementById('captionImg');
     const captionText = document.getElementById('captionText');
     const closeCaptionBtn = document.getElementById('closeCaptionBtn');
-
     albumGrid.querySelectorAll('.album-tile').forEach(tile => {
       tile.addEventListener('click', () => {
         const img = tile.querySelector('img');
@@ -742,28 +684,33 @@
         captionOverlay.style.display = 'flex';
       });
     });
-
     function closeCaption(){ captionOverlay.style.display = 'none'; }
     closeCaptionBtn.addEventListener('click', closeCaption);
     captionOverlay.addEventListener('click', (e) => {
       if (e.target === captionOverlay) closeCaption(); // click outside card
     });
   </script>
-
   <script>
     /* ===================================================================
-       POLL SCRIPT
+       POLL SCRIPT — now reads/writes a shared JSONBin bin so votes are
+       shared across everyone who visits, not just stored locally.
     =================================================================== */
-    const pollOptions = document.querySelectorAll('#pollOptions .poll-option');
-    const votes = {};
-    pollOptions.forEach(opt => votes[opt.dataset.label] = 0);
-    let hasVoted = false;
-    let votedLabel = null;
+    const BIN_ID = "6a359adbf5f4af5e291113d6";
+    const BIN_MASTER_KEY = "$2a$10$RfTE4u/REOQRDujOFSTlgO76iMGUYVDNX6IZFSILiAMthG.lXTaqi";
+    const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 
-    function renderResults(){
+    const pollOptionsContainer = document.getElementById('pollOptions');
+    const pollOptions = document.querySelectorAll('#pollOptions .poll-option');
+    const pollNote = document.querySelector('.poll-note');
+
+    const VOTE_STORAGE_KEY = 'soph_newsletter_poll_voted_label';
+    let votedLabel = localStorage.getItem(VOTE_STORAGE_KEY);
+
+    function renderResults(votes){
       const total = Object.values(votes).reduce((a,b) => a+b, 0) || 1;
       pollOptions.forEach(opt => {
-        const pct = Math.round((votes[opt.dataset.label] / total) * 100);
+        const count = votes[opt.dataset.label] || 0;
+        const pct = Math.round((count / total) * 100);
         opt.querySelector('.poll-bar-fill').style.width = pct + '%';
         opt.querySelector('.poll-pct').textContent = pct + '%';
         opt.classList.add('show-results');
@@ -771,18 +718,64 @@
       });
     }
 
+    async function fetchVotes(){
+      const res = await fetch(BIN_URL + '/latest', {
+        headers: { 'X-Master-Key': BIN_MASTER_KEY }
+      });
+      if (!res.ok) throw new Error('Failed to fetch poll results');
+      const data = await res.json();
+      return data.record;
+    }
+
+    async function saveVotes(votes){
+      const res = await fetch(BIN_URL, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Master-Key': BIN_MASTER_KEY
+        },
+        body: JSON.stringify(votes)
+      });
+      if (!res.ok) throw new Error('Failed to save vote');
+    }
+
+    async function loadAndRender(){
+      try{
+        pollOptionsContainer.classList.add('poll-loading');
+        const votes = await fetchVotes();
+        renderResults(votes);
+      } catch(err){
+        console.error('Poll load error:', err);
+        pollNote.textContent = "Couldn't load live results right now — try refreshing.";
+      } finally {
+        pollOptionsContainer.classList.remove('poll-loading');
+      }
+    }
+
     pollOptions.forEach(opt => {
-      opt.addEventListener('click', () => {
-        if (hasVoted){
-          votes[votedLabel] -= 1; // move previous vote
+      opt.addEventListener('click', async () => {
+        if (votedLabel) return;
+
+        try{
+          pollOptionsContainer.classList.add('poll-loading');
+          const votes = await fetchVotes();
+          votes[opt.dataset.label] = (votes[opt.dataset.label] || 0) + 1;
+          await saveVotes(votes);
+
+          votedLabel = opt.dataset.label;
+          localStorage.setItem(VOTE_STORAGE_KEY, votedLabel);
+
+          renderResults(votes);
+        } catch(err){
+          console.error('Poll vote error:', err);
+          pollNote.textContent = "Couldn't save your vote — try again in a moment.";
+        } finally {
+          pollOptionsContainer.classList.remove('poll-loading');
         }
-        votes[opt.dataset.label] += 1;
-        votedLabel = opt.dataset.label;
-        hasVoted = true;
-        renderResults();
       });
     });
-  </script>
 
+    loadAndRender();
+  </script>
 </body>
 </html>
