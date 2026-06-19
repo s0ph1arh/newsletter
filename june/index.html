@@ -11,16 +11,16 @@
      DESIGN TOKENS 
   =================================================================== */
   :root{
-    --paper:      #F6F1E7;   /* page background, like newsprint */
-    --paper-dim:  #EFE7D8;   /* slightly deeper paper, for cards */
-    --ink:        #26221C;   /* primary text */
-    --ink-soft:   #5B5447;   /* secondary text, captions */
-    --clay:       #C2603F;   /* primary accent — buttons, links, highlights */
+    --paper:      #1F2E22;   /* page background, now a dark green */
+    --paper-dim:  #B5532E;   /* section card background, now terracotta */
+    --ink:        #F3ECE2;   /* primary text, light so it reads on dark green */
+    --ink-soft:   #D8CFC3;   /* secondary text, captions */
+    --clay:       #E8895F;   /* primary accent — buttons, links, highlights */
     --clay-dark:  #9C4A30;   /* hover state for clay */
-    --sage:       #7C8B6F;   /* secondary accent — used sparingly */
+    --sage:       #C9D9B8;   /* secondary accent — used sparingly */
     --gold:       #D9A33D;   /* tertiary accent — used very sparingly */
-    --line:       #D8CCB4;   /* hairline rule color */
-    --shadow:     rgba(38,34,28,0.12);
+    --line:       #8C9E80;   /* hairline rule color */
+    --shadow:     rgba(0,0,0,0.25);
     --font-display: Georgia, 'Times New Roman', serif;
     --font-body: -apple-system, 'Helvetica Neue', Arial, sans-serif;
   }
@@ -79,9 +79,8 @@
     margin-bottom: 12px;
     font-family: var(--font-body);
     background: white;
-    color: var(--ink);
+    color: #26221C;
   }
-  #passwordInput:focus{
     outline: none;
     border-color: var(--clay);
   }
@@ -258,8 +257,8 @@
     gap: 10px;
   }
   .book-cover{
-    width: 38px;
-    height: 38px;
+    width: 56px;
+    height: 80px;
     flex-shrink: 0;
     border-radius: 4px;
     overflow: hidden;
@@ -373,6 +372,7 @@
     align-items: center;
     justify-content: space-between;
     background: white;
+    color: #26221C;
     border: 1.5px solid var(--line);
     border-radius: 8px;
     padding: 12px 16px;
@@ -461,19 +461,19 @@
  
       <ul class="guide-list">
         <li>
-          <span class="g-num">01</span>
+          <span class="g-num">1</span>
           <span class="g-text"><strong>Updates</strong><span>Life Updates</span></span>
         </li>
         <li>
-          <span class="g-num">02</span>
+          <span class="g-num">2</span>
           <span class="g-text"><strong>Best of June</strong><span>June Favorites</span></span>
         </li>
         <li>
-          <span class="g-num">03</span>
+          <span class="g-num">3</span>
           <span class="g-text"><strong>PHOTOS</strong><span>Me being alive in June</span></span>
         </li>
         <li>
-          <span class="g-num">04</span>
+          <span class="g-num">4</span>
           <span class="g-text"><strong>Vote...</strong><span>What are u guys thinking</span></span>
         </li>
       </ul>
@@ -481,8 +481,8 @@
     <div class="divider">• • •</div>
     <!-- ============================= UPDATES ============================= -->
     <section class="block" id="updates">
-      <div class="block-label">Section 01</div>
-      <h2>Updates</h2>
+      <div class="block-label">Up first</div>
+      <h2>My life recently</h2>
       <div class="update-item">
         <div class="u-date">May --> June</div>
         <h3>Being Employed</h3>
@@ -502,7 +502,7 @@
     <div class="divider">• • •</div>
     <!-- ============================= CURRENTLY INTO ============================= -->
     <section class="block" id="currently-into">
-      <div class="block-label">Section 02</div>
+      <div class="block-label">Consuming media...</div>
       <h2>June Favorites</h2>
       <div class="into-grid">
         <div class="into-col">
@@ -550,9 +550,9 @@
     <div class="divider">• • •</div>
     <!-- ============================= PHOTO ALBUM ============================= -->
     <section class="block" id="photo-album">
-      <div class="block-label">Section 03</div>
+      <div class="block-label">PICS</div>
       <h2>Photo album (some of these are from May so shh)</h2>
-      <p style="font-size:14px; color:var(--ink-soft); margin-top:-6px;">Click any photo to see its caption.</p>
+      <p style="font-size:14px; color:var(--ink-soft); margin-top:-6px;">get captions if you click :p</p>
       <div class="album-grid" id="albumGrid">
         <div class="album-tile" data-caption="Ray and Oli came to Bryn Mawr for a weekend which was so fun! We took them to our fave bar in the area and this was the aftermath.">
           <img src="pngs/photo-1.jpeg" alt="Rhea visit">
@@ -599,8 +599,8 @@
     <div class="divider">• • •</div>
     <!-- ============================= POLL ============================= -->
     <section class="block" id="poll">
-      <div class="block-label">Section 04</div>
-      <h2>Quick poll</h2>
+      <div class="block-label">Democracy</div>
+      <h2> Bringing my work into my home...</h2>
       <div class="poll-question">Worst person on love island?</div>
       <div class="poll-options" id="pollOptions">
         <div class="poll-option" data-label="Corbin">
@@ -698,14 +698,11 @@
     const BIN_ID = "6a359adbf5f4af5e291113d6";
     const BIN_MASTER_KEY = "$2a$10$RfTE4u/REOQRDujOFSTlgO76iMGUYVDNX6IZFSILiAMthG.lXTaqi";
     const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
-
     const pollOptionsContainer = document.getElementById('pollOptions');
     const pollOptions = document.querySelectorAll('#pollOptions .poll-option');
     const pollNote = document.querySelector('.poll-note');
-
     const VOTE_STORAGE_KEY = 'soph_newsletter_poll_voted_label';
     let votedLabel = localStorage.getItem(VOTE_STORAGE_KEY);
-
     function renderResults(votes){
       const total = Object.values(votes).reduce((a,b) => a+b, 0) || 1;
       pollOptions.forEach(opt => {
@@ -717,7 +714,6 @@
         opt.classList.toggle('voted', opt.dataset.label === votedLabel);
       });
     }
-
     async function fetchVotes(){
       const res = await fetch(BIN_URL + '/latest', {
         headers: { 'X-Master-Key': BIN_MASTER_KEY }
@@ -726,7 +722,6 @@
       const data = await res.json();
       return data.record;
     }
-
     async function saveVotes(votes){
       const res = await fetch(BIN_URL, {
         method: 'PUT',
@@ -738,7 +733,6 @@
       });
       if (!res.ok) throw new Error('Failed to save vote');
     }
-
     async function loadAndRender(){
       try{
         pollOptionsContainer.classList.add('poll-loading');
@@ -751,20 +745,16 @@
         pollOptionsContainer.classList.remove('poll-loading');
       }
     }
-
     pollOptions.forEach(opt => {
       opt.addEventListener('click', async () => {
         if (votedLabel) return;
-
         try{
           pollOptionsContainer.classList.add('poll-loading');
           const votes = await fetchVotes();
           votes[opt.dataset.label] = (votes[opt.dataset.label] || 0) + 1;
           await saveVotes(votes);
-
           votedLabel = opt.dataset.label;
           localStorage.setItem(VOTE_STORAGE_KEY, votedLabel);
-
           renderResults(votes);
         } catch(err){
           console.error('Poll vote error:', err);
@@ -774,7 +764,6 @@
         }
       });
     });
-
     loadAndRender();
   </script>
 </body>
