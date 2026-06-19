@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soph's Newsletter</title>
+
+<!-- =====================================================================
+===================================================================== */-->
+
+<style>
+  /* ===================================================================
+     DESIGN TOKENS 
+  =================================================================== */
+  :root{
+    --paper:      #F6F1E7;   /* page background, like newsprint */
+    --paper-dim:  #EFE7D8;   /* slightly deeper paper, for cards */
+    --ink:        #26221C;   /* primary text */
+    --ink-soft:   #5B5447;   /* secondary text, captions */
+    --clay:       #C2603F;   /* primary accent — buttons, links, highlights */
+    --clay-dark:  #9C4A30;   /* hover state for clay */
+    --sage:       #7C8B6F;   /* secondary accent — used sparingly */
+    --gold:       #D9A33D;   /* tertiary accent — used very sparingly */
+    --line:       #D8CCB4;   /* hairline rule color */
+    --shadow:     rgba(38,34,28,0.12);
+
+    --font-display: Georgia, 'Times New Roman', serif;
+    --font-body: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  *{ box-sizing: border-box; }
+
+  body{
+    font-family: var(--font-body);
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 24px 20px 60px;
+    background-color: var(--paper);
+    color: var(--ink);
+    line-height: 1.55;
+  }
+
+  /* ===================================================================
+     PASSWORD GATE
+  =================================================================== */
+  #lockScreen{
+    position: fixed;
+    inset: 0;
+    background: var(--ink);
+    color: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+  }
+  .lock-card{
+    background: var(--paper);
+    color: var(--ink);
+    border-radius: 14px;
+    padding: 40px 32px;
+    max-width: 380px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+  .lock-card .lock-emoji{ font-size: 32px; margin-bottom: 10px; }
+  .lock-card h1{
+    font-family: var(--font-display);
+    font-size: 24px;
+    margin: 0 0 6px;
+  }
+  .lock-card p{
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin: 0 0 20px;
+  }
+  #passwordInput{
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 16px;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 12px;
+    font-family: var(--font-body);
+    background: white;
+    color: var(--ink);
+  }
+  #passwordInput:focus{
+    outline: none;
+    border-color: var(--clay);
+  }
+  #unlockBtn{
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    background: var(--clay);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: var(--font-body);
+  }
+  #unlockBtn:hover{ background: var(--clay-dark); }
+  #lockError{
+    font-size: 13px;
+    color: var(--clay-dark);
+    margin-top: 10px;
+    min-height: 16px;
+  }
+  /* hides the real content until unlocked */
+  #siteContent{ display: none; }
+
+  /* ===================================================================
+     MASTHEAD 
+  =================================================================== */
+  .masthead{
+    text-align: center;
+    padding: 28px 0 22px;
+    border-bottom: 4px solid var(--ink);
+    margin-bottom: 6px;
+  }
+  .masthead .eyebrow{
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--clay);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .masthead h1{
+    font-family: var(--font-display);
+    font-size: 46px;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .masthead .tagline{
+    font-style: italic;
+    color: var(--ink-soft);
+    margin-top: 6px;
+    font-size: 15px;
+  }
+  .masthead .issue-row{
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 16px;
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
+  }
+
+  /* ===================================================================
+     SECTION DIVIDER 
+  =================================================================== */
+  .divider{
+    text-align: center;
+    margin: 40px 0 28px;
+    color: var(--line);
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    user-select: none;
+  }
+
+  /* ===================================================================
+     SECTION SHELL — 
+  =================================================================== */
+  section.block{
+    background: var(--paper-dim);
+    border-radius: 10px;
+    padding: 26px 24px;
+    margin-bottom: 8px;
+  }
+  .block-label{
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--sage);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  section.block h2{
+    font-family: var(--font-display);
+    font-size: 24px;
+    margin: 0 0 14px;
+    color: var(--ink);
+  }
+  section.block p{ margin: 0 0 12px; color: var(--ink); }
+
+  /* ===================================================================
+     GUIDE / TABLE OF CONTENTS
+  =================================================================== */
+  .guide-list{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .guide-list li{
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .guide-list li:last-child{ border-bottom: none; }
+  .guide-list .g-num{
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--clay);
+    font-size: 14px;
+    min-width: 22px;
+  }
+  .guide-list .g-text{ font-size: 15px; }
+  .guide-list .g-text strong{ display:block; font-size: 15px; }
+  .guide-list .g-text span{ font-size: 13px; color: var(--ink-soft); }
+
+  /* ===================================================================
+     UPDATES SECTION 
+  =================================================================== */
+  .update-item{
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .update-item:last-child{ border-bottom: none; }
+  .update-item .u-date{
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--clay);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .update-item h3{
+    font-family: var(--font-display);
+    font-size: 17px;
+    margin: 0 0 4px;
+  }
+  .update-item p{ font-size: 14px; margin: 0; color: var(--ink-soft); }
+
+  /* ===================================================================
+     CURRENTLY INTO
+  =================================================================== */
+  .into-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 18px;
+    margin-top: 4px;
+  }
+  .into-col .into-label{
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--sage);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .into-col .into-item{
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  .into-col .into-item .into-title{ font-weight: 600; display:block; }
+  .into-col .into-item .into-sub{ font-size: 12px; color: var(--ink-soft); }
+
+
+  .into-item.has-cover{
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .book-cover{
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 2px solid white;
+    box-shadow: 0 1px 4px var(--shadow);
+    background: var(--line);
+  }
+  .book-cover img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .into-item.has-cover .into-text{ padding-top: 1px; }
+  @media (max-width: 600px){
+    .into-grid{ grid-template-columns: 1fr; }
+  }
+
+  /* ===================================================================
+     PHOTO ALBUM 
+  =================================================================== */
+  .album-grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 6px;
+  }
+  .album-tile{
+    position: relative;
+    aspect-ratio: 1 / 1;        /* keeps every tile square */
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 3px solid white;
+    box-shadow: 0 2px 6px var(--shadow);
+    background: var(--line);   
+  }
+  .album-tile img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;          /* this is what forces uniform sizing
+                                    regardless of each photo's original
+                                    dimensions/orientation */
+    display: block;
+  }
+  .album-tile .tile-hint{
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.55));
+    color: white;
+    font-size: 10px;
+    text-align: center;
+    padding: 14px 4px 4px;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+  .album-tile:hover .tile-hint{ opacity: 1; }
+  @media (max-width: 600px){
+    .album-grid{ grid-template-columns: repeat(3, 1fr); }
+  }
+
+
+  #captionOverlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(38,34,28,0.82);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 900;
+    padding: 24px;
+  }
+  .caption-card{
+    background: var(--paper);
+    border-radius: 12px;
+    max-width: 420px;
+    width: 100%;
+    overflow: hidden;
+    text-align: center;
+  }
+  .caption-card img{
+    width: 100%;
+    max-height: 320px;
+    object-fit: cover;
+    display: block;
+  }
+  .caption-card .caption-text{
+    padding: 16px 18px 20px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 16px;
+    color: var(--ink);
+  }
+  .caption-card .close-btn{
+    margin-top: 4px;
+    background: none;
+    border: none;
+    color: var(--clay);
+    font-size: 13px;
+    cursor: pointer;
+    text-decoration: underline;
+    font-family: var(--font-body);
+  }
+
+  /* ===================================================================
+     POLL 
+  =================================================================== */
+  .poll-question{
+    font-family: var(--font-display);
+    font-size: 18px;
+    margin-bottom: 14px;
+  }
+  .poll-option{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: border-color 0.15s ease;
+  }
+  .poll-option:hover{ border-color: var(--clay); }
+  .poll-option.voted{ border-color: var(--sage); background: #F3F0E6; }
+  .poll-bar-bg{
+    flex: 1;
+    margin-left: 14px;
+    height: 6px;
+    background: var(--line);
+    border-radius: 3px;
+    overflow: hidden;
+    display: none;
+  }
+  .poll-option.show-results .poll-bar-bg{ display: block; }
+  .poll-bar-fill{
+    height: 100%;
+    background: var(--clay);
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+  .poll-pct{
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-left: 8px;
+    display: none;
+    min-width: 32px;
+    text-align: right;
+  }
+  .poll-option.show-results .poll-pct{ display: inline-block; }
+  .poll-note{
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: 10px;
+  }
+
+  /* ===================================================================
+     FOOTER
+  =================================================================== */
+  footer{
+    text-align: center;
+    margin-top: 36px;
+    padding: 20px;
+    color: var(--ink-soft);
+    font-size: 13px;
+  }
+</style>
+</head>
+
+<body>
+
+  <!-- =================================================================
+       PASSWORD GATE 
+  ================================================================== -->
+  <div id="lockScreen">
+    <div class="lock-card">
+      <div class="lock-emoji">🔒</div>
+      <h1>SOPH'S NEWSLETTER</h1>
+      <p>Enter password hereeee:</p>
+      <input type="password" id="passwordInput" placeholder="SOPHJUNE26" autocomplete="off">
+      <button id="unlockBtn">Unlock</button>
+      <div id="lockError"></div>
+    </div>
+  </div>
+
+  <!-- =================================================================
+       content
+  ================================================================== -->
+  <div id="siteContent">
+
+    <!-- ============================= MASTHEAD ============================= -->
+    <header class="masthead">
+      <div class="eyebrow">Welcome to the first edition of</div>
+      <h1>Soph's Newsletter</h1>
+      <p class="tagline">what i've been up to, thinking about, and entertaining myself with</p>
+      <div class="issue-row">
+        <span>#1</span>
+        <span>June 2026</span>
+      </div>
+    </header>
+
+    <!-- ============================= GUIDE / TOC ============================= -->
+    <section class="block" id="guide">
+      <div class="block-label">In this issue</div>
+      <h2>What's inside</h2>
+ 
+      <ul class="guide-list">
+        <li>
+          <span class="g-num">01</span>
+          <span class="g-text"><strong>Updates</strong><span>Life Updates</span></span>
+        </li>
+        <li>
+          <span class="g-num">02</span>
+          <span class="g-text"><strong>Best of June</strong><span>June Favorites</span></span>
+        </li>
+        <li>
+          <span class="g-num">03</span>
+          <span class="g-text"><strong>PHOTOS</strong><span>Me being alive in June</span></span>
+        </li>
+        <li>
+          <span class="g-num">04</span>
+          <span class="g-text"><strong>Vote...</strong><span>What are u guys thinking</span></span>
+        </li>
+      </ul>
+    </section>
+
+    <div class="divider">• • •</div>
+
+    <!-- ============================= UPDATES ============================= -->
+    <section class="block" id="updates">
+      <div class="block-label">Section 01</div>
+      <h2>Updates</h2>
+
+
+      <div class="update-item">
+        <div class="u-date">June 2026</div>
+        <h3>Being Employed</h3>
+        <p>Ok guys. Lowkey it's crazy to actually have a job and have work to do. But it is also kind of lit. I am currently doing my SUPERCOMMUTE from Philly to DC twice a week which is rough but also kind of a vibe. My coworkers are all lit and it is so fun to be reunited with Isak. </p>
+      </div>
+
+      <div class="update-item">
+        <div class="u-date">June 2026</div>
+        <h3>HALF MARATHON RAHHHH</h3>
+        <p>Anna and I DID THAT SHIT. We went up to Portland and we spent the weekend having delicious food and hanging out with Stella. It was a beautiful morning and the weather was perfect for our run. I think we both thought it would be really rough but lowkey we ate. We are signed up for the Philly Half in November which we will be running with everyone's favorite Irish DIVA Aislinn Lavery YEAAAAAAA</p>
+      </div>
+
+      <div class="update-item">
+        <div class="u-date">June 2026</div>
+        <h3>Final thoughts...</h3>
+        <p>I really miss u guys crazy and I miss being able to just see everyone whenever I want. It is so sad to have to make plans to call. I love you all and I am really excited for all of the chances we will get to see each other next in the future whenever that may be.</p>
+      </div>
+    </section>
+
+    <div class="divider">• • •</div>
+
+    <!-- ============================= CURRENTLY INTO ============================= -->
+    <section class="block" id="currently-into">
+      <div class="block-label">Section 02</div>
+      <h2>June Favorites</h2>
+
+      <div class="into-grid">
+
+
+        <div class="into-col">
+          <div class="into-label">Reading</div>
+          <div class="into-item has-cover">
+            <div class="book-cover">
+              <img src="pngs/book-1.png" alt="Cover of Ruby Fruit Jungle">
+            </div>
+            <div class="into-text">
+              <span class="into-title">Ruby Fruit Jungle</span>
+              <span class="into-sub">Rita Mae Brown</span>
+            </div>
+          </div>
+          <div class="into-item has-cover">
+            <div class="book-cover">
+              <img src="pngs/book-2.png" alt="Cover of Giovanni's Room">
+            </div>
+            <div class="into-text">
+              <span class="into-title">Giovanni's Room</span>
+              <span class="into-sub">James Baldwin</span>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="into-col">
+          <div class="into-label">Listening</div>
+          <div class="into-item">
+            <span class="into-title">June Tunes</span>
+          </div>
+            <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/4LtgvAJeOaVPsvKNzR09i4?utm_source=generator&si=815ca17cffdb465b" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+
+        <!-- WATCHING column  -->
+        <div class="into-col">
+          <div class="into-label">Watching</div>
+          <div class="into-item">
+            <span class="into-title">LOVE ISLAND</span>
+            <span class="into-sub">Anna and I are obsessed. We are caught up and we have actually gotten to vote which has been lit. We DESPISE Sincere and we are struggling to keep seeing him every day. We like Trinity and Bryce.</span>
+          </div>
+          <div class="into-item">
+            <span class="into-title">HACKS SEASON 5 LAST SEASON EVER SO SAD</span>
+            <span class="into-sub">Guys I am actually so upset that there is no more Hacks there's literally an unfillable hole in my heart. If u haven't watched it I am SO jealous of you and you need to start it now. </span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="divider">• • •</div>
+
+    <!-- ============================= PHOTO ALBUM ============================= -->
+    <section class="block" id="photo-album">
+      <div class="block-label">Section 03</div>
+      <h2>Photo album (some of these are from May so shh)</h2>
+      <p style="font-size:14px; color:var(--ink-soft); margin-top:-6px;">Click any photo to see its caption.</p>
+
+
+
+      <div class="album-grid" id="albumGrid">
+        <div class="album-tile" data-caption="Ray and Oli came to Bryn Mawr for a weekend which was so fun! We took them to our fave bar in the area and this was the aftermath.">
+          <img src="pngs/photo-1.jpeg" alt="Rhea visit">
+          <div class="tile-hint">click for caption</div>
+        </div>
+        <div class="album-tile" data-caption="Stella came to visit the dogs and was kind enough to spend some time with us too.">
+          <img src="pngs/photo-2.jpeg" alt="Dawg time">
+          <div class="tile-hint">click for caption</div>
+        </div>
+        <div class="album-tile" data-caption="Everyone needs to go see this. Went with Stella and Anna to the Bryn Mawr Film institute and we were gagged.">
+          <img src="pngs/photo-3.jpeg" alt="I LOVE BOOSTERS">
+          <div class="tile-hint">click for caption</div>
+        </div>
+        <div class="album-tile" data-caption="Not much else to say here. We have fun.">
+          <img src="pngs/photo-4.jpeg" alt="Isak at work">
+          <div class="tile-hint">click for caption</div>
+        </div>
+        <div class="album-tile" data-caption="This is us crossing the finish line. Why were we lowkey emo. We did it joe">
+          <img src="pngs/photo-5.JPG" alt="Portland Half!">
+          <div class="tile-hint">click for caption</div>
+        </div>
+        <div class="album-tile" data-caption="Post Portland Half... this was SO GOOD">
+          <img src="pngs/photo-6.jpeg" alt="YUMMMM">
+          <div class="tile-hint">click for caption</div>
+        </div>
+        <div class="album-tile" data-caption="Went down to Baltimore for a weekend to see Ellie and go to Baltimore pride. It was AWESOME">
+          <img src="pngs/photo-7.JPG" alt="PRIDE">
+          <div class="tile-hint">click for caption</div>
+        </div>
+        <div class="album-tile" data-caption="Had to go watch the Knicks game. We went to this super cute beer garden where I had the yummiest drink ever. Need to figure out how they did that.">
+          <img src="pngs/photo-8.JPG" alt="KNICKS IN 5">
+          <div class="tile-hint">click for caption</div>
+        </div>
+        <div class="album-tile" data-caption="Joy and John have been locked tf in on the world cup. I have been less locked in but Joy and I got matching Japan kits and watched their first game-- they TIED with the Netherlands which is a pretty big W for the Japan team.">
+          <img src="pngs/photo-9.jpeg" alt="World Cup watching!">
+          <div class="tile-hint">click for caption</div>
+        </div>
+        <div class="album-tile" data-caption="Anna cut all my hair off.">
+          <img src="pngs/photo-10.jpeg" alt="CHOPPED">
+          <div class="tile-hint">click for caption</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider">• • •</div>
+
+    <!-- ============================= POLL ============================= -->
+    <section class="block" id="poll">
+      <div class="block-label">Section 04</div>
+      <h2>Quick poll</h2>
+
+
+      <div class="poll-question">Worst person on love island?</div>
+
+      <div class="poll-options" id="pollOptions">
+        <div class="poll-option" data-label="Corbin">
+          <span class="opt-text">Corbin</span>
+          <span class="poll-bar-bg"><span class="poll-bar-fill"></span></span>
+          <span class="poll-pct">0%</span>
+        </div>
+        <div class="poll-option" data-label="Mel">
+          <span class="opt-text">Mel</span>
+          <span class="poll-bar-bg"><span class="poll-bar-fill"></span></span>
+          <span class="poll-pct">0%</span>
+        </div>
+        <div class="poll-option" data-label="Sincere">
+          <span class="opt-text">Sincere</span>
+          <span class="poll-bar-bg"><span class="poll-bar-fill"></span></span>
+          <span class="poll-pct">0%</span>
+        </div>
+        <div class="poll-option" data-label="Kenzie">
+          <span class="opt-text">Kenzie</span>
+          <span class="poll-bar-bg"><span class="poll-bar-fill"></span></span>
+          <span class="poll-pct">0%</span>
+        </div>
+      </div>
+      <div class="poll-note">Tap an option to vote.</div>
+    </section>
+
+    <footer>
+      <p>&copy; SOPH </p>
+    </footer>
+
+  </div><!-- end #siteContent -->
+
+  <!-- =================================================================
+       CAPTION LIGHTBOX OVERLAY (for the photo album)
+  ================================================================== -->
+  <div id="captionOverlay">
+    <div class="caption-card">
+      <img id="captionImg" src="" alt="">
+      <div class="caption-text" id="captionText"></div>
+      <button class="close-btn" id="closeCaptionBtn">close</button>
+    </div>
+  </div>
+
+  <script>
+    /* ===================================================================
+
+    =================================================================== */
+    const SITE_PASSWORD = "SOPHJUNE26"; // 
+
+    const lockScreen = document.getElementById('lockScreen');
+    const siteContent = document.getElementById('siteContent');
+    const passwordInput = document.getElementById('passwordInput');
+    const unlockBtn = document.getElementById('unlockBtn');
+    const lockError = document.getElementById('lockError');
+
+    function tryUnlock(){
+      if (passwordInput.value === SITE_PASSWORD){
+        lockScreen.style.display = 'none';
+        siteContent.style.display = 'block';
+      } else {
+        lockError.textContent = "That's not it — try again.";
+        passwordInput.value = '';
+        passwordInput.focus();
+      }
+    }
+
+    unlockBtn.addEventListener('click', tryUnlock);
+    passwordInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') tryUnlock();
+    });
+  </script>
+
+  <script>
+    /* ===================================================================
+       PHOTO ALBUM LIGHTBOX SCRIPT
+       Clicking a tile opens an overlay showing the full photo + caption,
+       pulled from each tile's data-caption attribute and its <img> src.
+    =================================================================== */
+    const albumGrid = document.getElementById('albumGrid');
+    const captionOverlay = document.getElementById('captionOverlay');
+    const captionImg = document.getElementById('captionImg');
+    const captionText = document.getElementById('captionText');
+    const closeCaptionBtn = document.getElementById('closeCaptionBtn');
+
+    albumGrid.querySelectorAll('.album-tile').forEach(tile => {
+      tile.addEventListener('click', () => {
+        const img = tile.querySelector('img');
+        captionImg.src = img.src;
+        captionImg.alt = img.alt;
+        captionText.textContent = tile.dataset.caption;
+        captionOverlay.style.display = 'flex';
+      });
+    });
+
+    function closeCaption(){ captionOverlay.style.display = 'none'; }
+    closeCaptionBtn.addEventListener('click', closeCaption);
+    captionOverlay.addEventListener('click', (e) => {
+      if (e.target === captionOverlay) closeCaption(); // click outside card
+    });
+  </script>
+
+  <script>
+    /* ===================================================================
+       POLL SCRIPT
+    =================================================================== */
+    const pollOptions = document.querySelectorAll('#pollOptions .poll-option');
+    const votes = {};
+    pollOptions.forEach(opt => votes[opt.dataset.label] = 0);
+    let hasVoted = false;
+    let votedLabel = null;
+
+    function renderResults(){
+      const total = Object.values(votes).reduce((a,b) => a+b, 0) || 1;
+      pollOptions.forEach(opt => {
+        const pct = Math.round((votes[opt.dataset.label] / total) * 100);
+        opt.querySelector('.poll-bar-fill').style.width = pct + '%';
+        opt.querySelector('.poll-pct').textContent = pct + '%';
+        opt.classList.add('show-results');
+        opt.classList.toggle('voted', opt.dataset.label === votedLabel);
+      });
+    }
+
+    pollOptions.forEach(opt => {
+      opt.addEventListener('click', () => {
+        if (hasVoted){
+          votes[votedLabel] -= 1; // move previous vote
+        }
+        votes[opt.dataset.label] += 1;
+        votedLabel = opt.dataset.label;
+        hasVoted = true;
+        renderResults();
+      });
+    });
+  </script>
+
+</body>
+</html>
