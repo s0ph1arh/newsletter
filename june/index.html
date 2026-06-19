@@ -415,6 +415,93 @@
   }
   .poll-options.poll-loading{ opacity: 0.5; pointer-events: none; }
   /* ===================================================================
+     COMMENTS — small comment box, one per section. Existing comments
+     list above a name + text input. Comments are shared across all
+     visitors via JSONBin (see script at bottom of file).
+  =================================================================== */
+  .comments-box{
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+  .comments-label{
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--sage);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .comments-list{
+    margin-bottom: 12px;
+  }
+  .comment-item{
+    background: rgba(255,255,255,0.12);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 6px;
+    font-size: 13px;
+  }
+  .comment-item .comment-name{
+    font-weight: 700;
+    color: var(--gold);
+    margin-right: 6px;
+  }
+  .comment-item .comment-text{ color: var(--ink); }
+  .comments-empty{
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-style: italic;
+    margin-bottom: 12px;
+  }
+  .comment-form{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .comment-name-input{
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 13px;
+    border: 1.5px solid var(--line);
+    border-radius: 6px;
+    background: white;
+    color: #26221C;
+    font-family: var(--font-body);
+  }
+  .comment-text-input{
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 13px;
+    border: 1.5px solid var(--line);
+    border-radius: 6px;
+    background: white;
+    color: #26221C;
+    font-family: var(--font-body);
+    resize: vertical;
+    min-height: 50px;
+  }
+  .comment-submit-btn{
+    align-self: flex-end;
+    padding: 7px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    background: var(--clay);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: var(--font-body);
+  }
+  .comment-submit-btn:hover{ background: var(--clay-dark); }
+  .comment-submit-btn:disabled{ opacity: 0.6; cursor: default; }
+  .comments-box.comments-loading{ opacity: 0.6; pointer-events: none; }
+  .comment-status{
+    font-size: 12px;
+    color: var(--ink-soft);
+    min-height: 14px;
+  }
+  /* ===================================================================
      FOOTER
   =================================================================== */
   footer{
@@ -498,6 +585,17 @@
         <h3>Final thoughts...</h3>
         <p>I really miss u guys crazy and I miss being able to just see everyone whenever I want. It is so sad to have to make plans to call. I love you all and I am really excited for all of the chances we will get to see each other next in the future whenever that may be. Right now I think I'm definitely still adjusting and getting into all of the routines. I've been having fun cooking food to bring for lunch to work and I've been reading and listening to podcasts to pass the time on the train. If anyone has recs, send them my way. I really want to find some clubs in Philly that I can join to get involved in fun stuff and meet people. I want to like do climbing or pottery or something. I also will be renting a room from September to December in DC bc things are gonna get really busy at work. I'm feeling kind of weird about it because I really do love being in Bryn Mawr but I think it'll be good for me and it's in my friend Abby's house who I worked with last summer. We will see!</p>
       </div>
+
+      <div class="comments-box" data-section="updates">
+        <div class="comments-label">Comments</div>
+        <div class="comments-list"></div>
+        <div class="comment-form">
+          <input type="text" class="comment-name-input" placeholder="Your name" maxlength="40">
+          <textarea class="comment-text-input" placeholder="Leave a comment..." maxlength="500"></textarea>
+          <button class="comment-submit-btn">Post</button>
+        </div>
+        <div class="comment-status"></div>
+      </div>
     </section>
     <div class="divider">• • •</div>
     <!-- ============================= CURRENTLY INTO ============================= -->
@@ -545,6 +643,17 @@
             <span class="into-sub">Guys I am actually so upset that there is no more Hacks there's literally an unfillable hole in my heart. If u haven't watched it I am SO jealous of you and you need to start it now. </span>
           </div>
         </div>
+      </div>
+
+      <div class="comments-box" data-section="currently-into">
+        <div class="comments-label">Comments</div>
+        <div class="comments-list"></div>
+        <div class="comment-form">
+          <input type="text" class="comment-name-input" placeholder="Your name" maxlength="40">
+          <textarea class="comment-text-input" placeholder="Leave a comment..." maxlength="500"></textarea>
+          <button class="comment-submit-btn">Post</button>
+        </div>
+        <div class="comment-status"></div>
       </div>
     </section>
     <div class="divider">• • •</div>
@@ -595,6 +704,17 @@
           <div class="tile-hint">click for caption</div>
         </div>
       </div>
+
+      <div class="comments-box" data-section="photo-album">
+        <div class="comments-label">Comments</div>
+        <div class="comments-list"></div>
+        <div class="comment-form">
+          <input type="text" class="comment-name-input" placeholder="Your name" maxlength="40">
+          <textarea class="comment-text-input" placeholder="Leave a comment..." maxlength="500"></textarea>
+          <button class="comment-submit-btn">Post</button>
+        </div>
+        <div class="comment-status"></div>
+      </div>
     </section>
     <div class="divider">• • •</div>
     <!-- ============================= POLL ============================= -->
@@ -625,6 +745,17 @@
         </div>
       </div>
       <div class="poll-note">Tap an option to vote.</div>
+
+      <div class="comments-box" data-section="poll">
+        <div class="comments-label">Comments</div>
+        <div class="comments-list"></div>
+        <div class="comment-form">
+          <input type="text" class="comment-name-input" placeholder="Your name" maxlength="40">
+          <textarea class="comment-text-input" placeholder="Leave a comment..." maxlength="500"></textarea>
+          <button class="comment-submit-btn">Post</button>
+        </div>
+        <div class="comment-status"></div>
+      </div>
     </section>
     <footer>
       <p>&copy; SOPH </p>
@@ -765,6 +896,125 @@
       });
     });
     loadAndRender();
+  </script>
+  <script>
+    /* ===================================================================
+       COMMENTS SCRIPT — one shared JSONBin bin holds comments for every
+       section, keyed by each .comments-box's data-section attribute.
+       Bin shape: { "updates": [{name, text}], "currently-into": [...],
+                    "photo-album": [...], "poll": [...] }
+
+       EDIT ME: replace COMMENTS_BIN_ID below with your real comments
+       bin ID (create it the same way as the poll bin — see chat).
+       Reuses the same BIN_MASTER_KEY already defined in the poll script
+       above, since it's the same JSONBin account.
+    =================================================================== */
+    const COMMENTS_BIN_ID = "6a35aa31da38895dfedfd681"; // <-- EDIT ME
+    const COMMENTS_BIN_URL = `https://api.jsonbin.io/v3/b/${COMMENTS_BIN_ID}`;
+
+    async function fetchComments(){
+      const res = await fetch(COMMENTS_BIN_URL + '/latest', {
+        headers: { 'X-Master-Key': BIN_MASTER_KEY }
+      });
+      if (!res.ok) throw new Error('Failed to fetch comments');
+      const data = await res.json();
+      return data.record;
+    }
+
+    async function saveComments(allComments){
+      const res = await fetch(COMMENTS_BIN_URL, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Master-Key': BIN_MASTER_KEY
+        },
+        body: JSON.stringify(allComments)
+      });
+      if (!res.ok) throw new Error('Failed to save comment');
+    }
+
+    function renderComments(box, list){
+      const listEl = box.querySelector('.comments-list');
+      listEl.innerHTML = '';
+      if (!list || list.length === 0){
+        listEl.innerHTML = '<div class="comments-empty">No comments yet — be the first!</div>';
+        return;
+      }
+      list.forEach(c => {
+        const item = document.createElement('div');
+        item.className = 'comment-item';
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'comment-name';
+        nameSpan.textContent = c.name + ':';
+        const textSpan = document.createElement('span');
+        textSpan.className = 'comment-text';
+        textSpan.textContent = c.text;
+        item.appendChild(nameSpan);
+        item.appendChild(textSpan);
+        listEl.appendChild(item);
+      });
+    }
+
+    async function initCommentBoxes(){
+      const boxes = document.querySelectorAll('.comments-box');
+
+      // Load all comments once, render into every box.
+      let allComments;
+      try{
+        allComments = await fetchComments();
+        boxes.forEach(box => {
+          const section = box.dataset.section;
+          renderComments(box, allComments[section] || []);
+        });
+      } catch(err){
+        console.error('Comments load error:', err);
+        boxes.forEach(box => {
+          box.querySelector('.comment-status').textContent = "Couldn't load comments right now.";
+        });
+        return;
+      }
+
+      // Wire up each box's submit button.
+      boxes.forEach(box => {
+        const section = box.dataset.section;
+        const nameInput = box.querySelector('.comment-name-input');
+        const textInput = box.querySelector('.comment-text-input');
+        const submitBtn = box.querySelector('.comment-submit-btn');
+        const statusEl = box.querySelector('.comment-status');
+
+        submitBtn.addEventListener('click', async () => {
+          const name = nameInput.value.trim();
+          const text = textInput.value.trim();
+          if (!name || !text){
+            statusEl.textContent = 'Add your name and a comment first.';
+            return;
+          }
+
+          try{
+            box.classList.add('comments-loading');
+            statusEl.textContent = '';
+
+            // Re-fetch right before saving so we don't overwrite comments
+            // someone else added in the meantime.
+            const latest = await fetchComments();
+            if (!latest[section]) latest[section] = [];
+            latest[section].push({ name, text });
+            await saveComments(latest);
+
+            renderComments(box, latest[section]);
+            nameInput.value = '';
+            textInput.value = '';
+          } catch(err){
+            console.error('Comment post error:', err);
+            statusEl.textContent = "Couldn't post your comment — try again.";
+          } finally {
+            box.classList.remove('comments-loading');
+          }
+        });
+      });
+    }
+
+    initCommentBoxes();
   </script>
 </body>
 </html>
